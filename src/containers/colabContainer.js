@@ -1,105 +1,98 @@
 import React from 'react';
-import User from '../components/user'
-import RepositoryList from '../components/repositoryList'
-import LoginButton from '../components/login/login'
+import UserContainer from './userContainer'
+import RepositoryContainer from './repoContainer'
+import RequestContainer from './requestContainer'
+import Navbar from '../components/navbar'
+import Login from '../components/login/login'
+import SignUp from '../components/login/signUp'
 import {Route} from 'react-router-dom'
-import homeRoute from "../components/homeRoute"
-import { headers } from '../authorization/headers';
+
 
 class ColabContainer extends React.Component {
 
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
 
     this.state = {
       loggedIn: false,
-      currentUser: "",
-      user: {
-        avatarUrl: "",
-        username: "",
-        bio: "",
-        url: ""
-      },
-      repositories: []
+      auth: {user: {}}
     }
   }
-
+// but currentUser not in state -- redirect 
   componentDidMount() {
-    if (!this.state.loggedIn && localStorage.getItem("token")) {
-      this.fetchUser()
-      .then(data => {
-        console.log(data)
+    const token = localStorage.getItem('token');
+
+    if(token) {
+      this.getCurrentUser().then(data => {
+        const currentUser = {user: data};
+        this.setState({auth: currentUser});
       })
-      // .then(data => {
-      //   console.log(data)
-        // this.setState({ currentUser: data.data.attributes[`display-name`], loggedIn: true })})
     }
   }
 
-  fetchUser() {
-    return fetch(`http://localhost:3000/api/v1/users/show`, { headers: headers() })
-        .then(resp => resp.json())
+   getCurrentUser = () => {
+    const token = localStorage.getItem("token")
+    return fetch('http://localhost:3000/api/v1/current_user', {headers: {
+      'Content-Type': 'application/json',
+      Accepts: 'application/json',
+      Authorization:token}})
+    .then(res => res.json());
   }
 
-  handleCode = router => {
-    if (localStorage.getItem("token")) {
-      this.props.history.push("/main")
-    } else {
-      fetch('http://localhost:3000/api/v1/home',{
-        method:'POST',
-        headers: {
-          'Content-Type':'application/json',
-          'Accept':'application/json'
-        },
-          body:JSON.stringify({code:this.props.location.search.split("?code=")[1]})
-        })
-        .then(res => res.json())
-        .then(res => {
-          localStorage.setItem("code", res.code);
-          this.setState({currentUser: res.username})
-        })
-          return null;
-      }
-      return null;
-    }
+  handleLogin = (user) => {
+    const currentUser = {user: user};
+    // console.log(user)
+    this.setState({auth: currentUser});
+    localStorage.setItem('token', user.jwt);
+  };
 
+  handleLogout = (user) => {
+    this.setState({
+      auth: {user: {}}
+    });
+    localStorage.removeItem('token');
+  }
 
+  handleChange = (event) => {
+    // console.log(event)
 
+  }
 
-  // componentDidMount() {
-  //   if (!this.state.loggedIn && localStorage.getItem("token")) {
-  //
-  //   }
-//     return fetch('https://api.github.com/graphql', {
-//  method: 'POST',
-//  headers: {
-//    'Accept': 'application/vnd.github.v4+json',
-//    'Content-Type': 'application/json',
-//    'Authorization': 'bearer ce14492a48de184ad0c00d92d458ab8cc63bf6b3'
-// },
-// body: JSON.stringify({
-// "query": "{user(login: \"cionb25\") {login,avatarUrl,bio,url,repositories(last: 5){edges{node{description,descriptionHTML,shortDescriptionHTML,url,primaryLanguage{name},owner{login},name,languages(last: 6){edges{node{name}}}}}}}}"
-// }),
-// })
-// .then(response => response.json())
-// .then(data => {
-//   this.setState({
-//     avatarUrl:data.data.user.avatarUrl,
-//     username:data.data.user.login,
-//     bio:data.data.user.bio,
-//     url: data.data.user.url,
-//     repositories: data.data.user.repositories.edges
-//   })
- // console.log('Here is the data: ', data.data.user)});
- //  }
+  handleClick = (event) => {
+    event.preventDefault();
+    this.setState({
+
+    })
+  }
 
   render() {
+    // console.log(this.state.auth)
+
     return (
       <div>
-        // <User userData={this.state}/>
-        // <RepositoryList repositories={this.state.repositories}/>
-        <LoginButton/>
-        <Route exact path="/home" render={this.handleCode}/>
+        <Route render={(props) => {
+          return <Navbar {...props} user={this.state.auth.user} handleLogout={this.handleLogout}/>
+        }}/>
+
+        <Route path="/repo_feed" render={(props) => {
+          return <RepositoryContainer {...props} user={this.state.auth.user}/>
+        }}/>
+
+        <Route path="/login" render={(props) => {
+
+          return <Login {...props} handleLogin={this.handleLogin}/>}
+        }/>
+        <Route path="/signup" render={(props) => {
+          return <SignUp {...props} handleLogin={this.handleLogin} />}
+        }/>
+        <Route path="/my_account"  render={(props) => {
+          return <UserContainer {...props} user={this.state.auth.user}/>
+        }}/>
+
+        <Route path="/requests" render={(props) => {
+          return <RequestContainer {...props} user={this.state.auth.user}/>
+        }}/>
+
       </div>
     )
   }
@@ -108,3 +101,19 @@ class ColabContainer extends React.Component {
 
 
 export default ColabContainer;
+
+// fetchUser() {
+//   return fetch('http://localhost:3000/api/v1/users/9', {headers: {
+//         'Content-Type': 'application/json',
+//         Accepts: 'application/json',
+//         Authorization:token}})
+//       .then(res => res.json()).then(user => console.log(user))
+// }
+
+// fetchAllRepos() {
+//   return fetch('http://localhost:3000/api/v1/repositories', {headers: {
+//       'Content-Type': 'application/json',
+//       Accepts: 'application/json',
+//       Authorization:token}})
+//     .then(res => res.json()).then(user => console.log(user))
+// }

@@ -1,17 +1,18 @@
 import React from 'react';
 import { Card, Image } from 'semantic-ui-react'
 
-const User = (props) => {
+const User = ({userData}) => {
+// console.log(userData.user)
 
   return (
     <Card>
-      <Image src={props.avatarUrl} />
+      <Image src={userData.user.avatarUrl}/>
       <Card.Content>
         <Card.Header>
-          {props.username}
+          {userData.user.username}
         </Card.Header>
         <Card.Description>
-          {props.bio}
+          {userData.user.bio}
         </Card.Description>
       </Card.Content>
     </Card>
