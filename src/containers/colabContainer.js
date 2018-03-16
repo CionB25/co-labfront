@@ -18,7 +18,7 @@ class ColabContainer extends React.Component {
       auth: {user: {}}
     }
   }
-// but currentUser not in state -- redirect 
+// but currentUser not in state -- redirect
   componentDidMount() {
     const token = localStorage.getItem('token');
 

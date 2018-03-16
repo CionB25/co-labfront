@@ -52,7 +52,7 @@ class RequestContainer extends React.Component {
         return fetch(url, config)
         .then(res => res.json())
         .then(res => {
-          console.log(res)
+          // console.log(res)
           this.setState({
             requesting: res.mine,
             requested: res.theirs
