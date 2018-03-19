@@ -6,7 +6,7 @@ import Navbar from '../components/navbar'
 import Login from '../components/login/login'
 import SignUp from '../components/login/signUp'
 import {Route} from 'react-router-dom'
-
+import LoginContainerPage from '../components/login/loginContainerPage'
 
 class ColabContainer extends React.Component {
 
@@ -87,6 +87,10 @@ class ColabContainer extends React.Component {
         }/>
         <Route path="/my_account"  render={(props) => {
           return <UserContainer {...props} user={this.state.auth.user}/>
+        }}/>
+
+        <Route path="/signin" render={(props) => {
+          return <LoginContainerPage {...props}/>
         }}/>
 
         <Route path="/requests" render={(props) => {
