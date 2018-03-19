@@ -14,11 +14,11 @@ class RequestContainer extends React.Component {
 
   componentDidMount() {
     if (!localStorage.getItem('token')) {
-      this.props.history.push('/login');
+      this.props.history.push('/signin');
     } else {
       this.getCurrentUser().then(user => {
         if (user.error) {
-          this.props.history.push('/login');
+          this.props.history.push('/signin');
         } else {
           console.log(user.username)
           if (user.username) {
