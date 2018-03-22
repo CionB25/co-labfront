@@ -30,35 +30,13 @@ class RepositoryContainer extends React.Component {
     })
   }
 
-  shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      // And swap it with the current element.
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-  }
-
   render() {
-    const repos = this.state.repositories
-    const mixed = this.shuffle(repos)
-
     return (
       <Grid>
         <Grid.Column floated='left' className="ui grid">
             <RepositoryList history={this.props.history}
             user={this.props.user.username}
-            repositories={mixed}/>
+            repositories={this.state.repositories}/>
         </Grid.Column>
       </Grid>
     )

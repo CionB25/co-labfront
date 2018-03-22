@@ -74,7 +74,7 @@ class ColabContainer extends React.Component {
           return <Navbar {...props} user={this.state.auth.user} handleLogout={this.handleLogout}/>
         }}/>
 
-        <Route exact path="/" render={(props) => {
+        <Route path="/repo_feed" render={(props) => {
           return <RepositoryContainer {...props} user={this.state.auth.user}/>
         }}/>
 

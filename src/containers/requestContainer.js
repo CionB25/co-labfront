@@ -1,10 +1,8 @@
 import React from 'react';
-import User from '../components/user';
-import RequestedList from '../components/requestedList'
-import RequestingList from '../components/requestingList';
-import {Grid, Divider} from 'semantic-ui-react';
+import RequestList from '../components/requestList';
 
 class RequestContainer extends React.Component {
+
   constructor(props) {
     super(props)
 
@@ -54,7 +52,7 @@ class RequestContainer extends React.Component {
         return fetch(url, config)
         .then(res => res.json())
         .then(res => {
-          console.log(res)
+          // console.log(res)
           this.setState({
             requesting: res.mine,
             requested: res.theirs
@@ -65,20 +63,11 @@ class RequestContainer extends React.Component {
 
 
   render() {
-    console.log(this.props);
     // console.log(this.props.user.username);
     return (
-      <Grid celled >
-        <Grid.Column width={3}>
-        <User userData={this.props}/>
-        </Grid.Column>
-
-        <Grid.Column width={13}>
-        <RequestedList repos={this.state.requested}/>
-        <Divider hidden/>
-        <RequestingList repos={this.state.requesting}/>
-        </Grid.Column>
-      </Grid>
+      <div>
+        <RequestList data={this.state}/>
+      </div>
     )
   }
 
