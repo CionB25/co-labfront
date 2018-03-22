@@ -9,6 +9,7 @@ const Requesting = (props) =>  {
       <div className="raised">Username: {props.repo.owner_username}</div>
       <div className="description">{props.repo.description}</div>
       <div className="meta">  {props.repo.primaryLanguage} </div>
+      <p>...Pending Approval </p>
         <div className='ui two buttons'>
 
 

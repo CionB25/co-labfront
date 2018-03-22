@@ -20,11 +20,11 @@ export default class Navbar extends Component {
       } else if (to === 'requests') {
         this.props.history.push("/requests");
       } else if (to === 'repo feed') {
-        this.props.history.push("/repo_feed");
+        this.props.history.push("/");
       } else if (to === 'logout') {
         // this.props.handleLogout(this.props.user),
         localStorage.clear()
-        this.props.history.push("/repo_feed");
+        this.props.history.push("/");
       }
   }
 

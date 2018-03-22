@@ -1,5 +1,6 @@
 import React from 'react';
-import {Button} from 'semantic-ui-react';
+import ApprovalModal from './approvalModal'
+// import {Button} from 'semantic-ui-react';
 
 const Requested = (props) =>  {
   // console.log(props.repo.name);
@@ -39,7 +40,7 @@ const Requested = (props) =>  {
       <div className="description">{props.repo.description}</div>
       <div className="meta">  {props.repo.primaryLanguage} </div>
 
-        <a href={url} target="_blank">Send Repo Invite</a>
+        <ApprovalModal/>
 
 
       </div>
