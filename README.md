@@ -3,13 +3,13 @@
 ## Overview
 A Github Community which allows users to shows what projects they are currently working on, which are available to collaborate. The app also provides the ability for users to search a feed of repositories to request the collaboration on other user's repositories.
 
-##Technology
+## Technology
 * React
 * react-router
 * semantic-ui-react
 * JWT
 
-##Functionality
+## Functionality
 
 When a user logs in or signs up, they are taken to their personal account, which shows their basic Github user information & eight most recent repositories.
 
