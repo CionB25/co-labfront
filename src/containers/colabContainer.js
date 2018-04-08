@@ -5,6 +5,7 @@ import RequestContainer from './requestContainer'
 import Navbar from '../components/navbar'
 import Login from '../components/login/login'
 import SignUp from '../components/login/signUp'
+import OAuth from '../components/login/oauth'
 import {Route} from 'react-router-dom'
 import LoginContainerPage from '../components/login/loginContainerPage'
 
@@ -96,6 +97,7 @@ class ColabContainer extends React.Component {
         <Route path="/requests" render={(props) => {
           return <RequestContainer {...props} user={this.state.auth.user}/>
         }}/>
+        
 
       </div>
     )
