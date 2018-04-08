@@ -66,28 +66,29 @@ class ColabContainer extends React.Component {
   }
 
   handleCode = router => {
-  if (localStorage.getItem("token")) {
-    this.props.history.push("/main")
-  } else {
-    fetch('https://synthesis-k3.herokuapp.com/api/v1/home', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({ code: this.props.location.search.split("?code=")[1] })
-    }
-  )
-  .then(res => res.json())
-  .then(data => {
-    const {currentUser, code} = data
-    localStorage.setItem("token", code);
-    this.setState({ currentUser: currentUser['display_name'] }, () => this.props.history.push("/main"));
-  })
+
+    if (localStorage.getItem("token")) {
+      this.props.history.push("/my_account")
+    } else {
+      fetch('http://localhost:3000/api/v1/home', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ code: router.history.location.search.split("?code=")[1] })
+      }
+    )
+    .then(res => res.json())
+    .then(data => {
+      const {currentUser, code} = data
+      localStorage.setItem("token", code);
+      this.setState({ currentUser: currentUser['display_name'] }, () => this.props.history.push("/my_account"));
+    })
+    return null;
+  }
   return null;
-}
-return null;
-}
+  }
 
   render() {
     // console.log(this.state.auth)
