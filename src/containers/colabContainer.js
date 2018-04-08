@@ -5,7 +5,6 @@ import RequestContainer from './requestContainer'
 import Navbar from '../components/navbar'
 import Login from '../components/login/login'
 import SignUp from '../components/login/signUp'
-import OAuth from '../components/login/oauth'
 import {Route} from 'react-router-dom'
 import LoginContainerPage from '../components/login/loginContainerPage'
 
@@ -66,6 +65,30 @@ class ColabContainer extends React.Component {
     })
   }
 
+  handleCode = router => {
+  if (localStorage.getItem("token")) {
+    this.props.history.push("/main")
+  } else {
+    fetch('https://synthesis-k3.herokuapp.com/api/v1/home', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ code: this.props.location.search.split("?code=")[1] })
+    }
+  )
+  .then(res => res.json())
+  .then(data => {
+    const {currentUser, code} = data
+    localStorage.setItem("token", code);
+    this.setState({ currentUser: currentUser['display_name'] }, () => this.props.history.push("/main"));
+  })
+  return null;
+}
+return null;
+}
+
   render() {
     // console.log(this.state.auth)
 
@@ -97,8 +120,8 @@ class ColabContainer extends React.Component {
         <Route path="/requests" render={(props) => {
           return <RequestContainer {...props} user={this.state.auth.user}/>
         }}/>
-        
 
+        <Route exact path="/home" component={this.handleCode} />
       </div>
     )
   }

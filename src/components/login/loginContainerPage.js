@@ -19,6 +19,8 @@ const LoginContainerPage = (props) => {
       <Button primary fluid onClick={handleLogin}>Login</Button>
       <Divider horizontal>Or</Divider>
       <Button secondary fluid onClick={handleSignUp}>Sign Up Now</Button>
+      <Divider horizontal>Or</Divider>
+      <Button><a href="http://localhost:3000/api/v1/login">Bam</a></Button>
     </Segment>)
   }
 
